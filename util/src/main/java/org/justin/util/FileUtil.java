@@ -1,4 +1,4 @@
-package org.justin.orm.util;
+package org.justin.util;
 
 import java.io.File;
 

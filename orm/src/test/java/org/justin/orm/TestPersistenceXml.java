@@ -12,8 +12,8 @@ import org.justin.orm.entity.Application;
 import org.justin.orm.entity.NetworkInterface;
 import org.justin.orm.entity.Server;
 import org.justin.orm.entity.User;
-import org.justin.orm.util.CollectionUtil;
-import org.justin.orm.util.FileUtil;
+import org.justin.util.CollectionUtil;
+import org.justin.util.FileUtil;
 
 @SuppressWarnings("static-method")
 public class TestPersistenceXml {

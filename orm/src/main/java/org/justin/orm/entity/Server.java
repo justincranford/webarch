@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.justin.orm.util.StringUtil;
+import org.justin.util.StringUtil;
 
 @SuppressWarnings("hiding")
 @org.hibernate.envers.Audited

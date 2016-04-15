@@ -17,6 +17,7 @@ public class App implements AutoCloseable {
 	private App() {
 		this.emf = Persistence.createEntityManagerFactory("test-db-h2");	// TODO Change to production value, or allow dependency injection via container property
 	}
+	@Override
 	public void close() throws Exception {
 		if (null != this.emf) {
 			try {

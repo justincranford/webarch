@@ -9,7 +9,7 @@ import javax.persistence.Persistence;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.justin.orm.entity.Application;
-import org.justin.orm.entity.NetworkInterface;
+import org.justin.orm.entity.Address;
 import org.justin.orm.entity.Server;
 import org.justin.orm.entity.User;
 import org.justin.util.CollectionUtil;
@@ -34,9 +34,9 @@ public class TestPersistenceXml {
                 Server server1 = new Server();
                 server1.setName("mailserver");
 
-                NetworkInterface networkInterface = new NetworkInterface("127.0.0.1", null, null, null, server1);
-				ArrayList<NetworkInterface> ni = (ArrayList<NetworkInterface>) CollectionUtil.create(ArrayList.class, networkInterface);
-				server1.setNetworkInterfaces(ni);
+                Address address = new Address("127.0.0.1", "localhost.localdomain", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, server1);
+				ArrayList<Address> addresses = (ArrayList<Address>) CollectionUtil.create(ArrayList.class, address);
+				server1.setAddresses(addresses);
 
                 em.persist(server1);
             }
@@ -90,7 +90,7 @@ public class TestPersistenceXml {
                 user1.setFirstName("Justin");
                 user1.setLastName("Cranford");
                 user1.setEmail("justincranford@org.justin");
-                user1.setApplication(application1);
+                user1.setParentApplication(application1);
                 em.persist(user1);
             }
             em.getTransaction().commit();

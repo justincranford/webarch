@@ -81,9 +81,11 @@ public class Application extends AbstractEntity {
     @OneToMany(cascade={},fetch=FetchType.LAZY,targetEntity=User.class,mappedBy="parentApplication",orphanRemoval=false)
     private List<User> childUsers = new ArrayList<>();
 
+    // Recursion: This application is contained in a parent application (ex: PaaS containers like IIS Server, Docker, JBoss)
     @ManyToMany(cascade={},fetch=FetchType.LAZY,targetEntity=Group.class,mappedBy="childApplications")
     private List<Group> parentGroups = new ArrayList<>();
 
+    // Recursion: This application contains 0-N child applications (ex: PaaS containers like IIS Server, Docker, JBoss)
     @OneToMany(cascade={},fetch=FetchType.LAZY,targetEntity=Application.class,mappedBy="parentApplication",orphanRemoval=false)
     private List<Application> childApplications = new ArrayList<>();
 

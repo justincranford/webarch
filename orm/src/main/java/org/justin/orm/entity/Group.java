@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -39,6 +41,14 @@ public class Group extends AbstractEntity {
     @ManyToMany(cascade={},fetch=FetchType.LAZY,targetEntity=User.class)
     @JoinTable(name="map_group2user",joinColumns=@JoinColumn(name="groupid", referencedColumnName="id"),inverseJoinColumns=@JoinColumn(name="userid", referencedColumnName="id"))
     private List<User> childUsers = new ArrayList<>();
+
+    // Recursion: This group is contained in a parent group (ex: Directory Services like Active Directory, LDAP)
+    @ManyToOne(cascade={},fetch=FetchType.LAZY,targetEntity=Group.class,optional=true)
+    private Group parentGroup = null;
+
+    // Recursion: This group contains 0-N child groups (ex: Directory Services like Active Directory, LDAP)
+    @OneToMany(cascade={},fetch=FetchType.LAZY,targetEntity=Group.class,mappedBy="parentGroup",orphanRemoval=false)
+    private List<Group> childGroups = new ArrayList<>();
 
     // One or more applications can be a Federated Identity Manager for one or more groups (of servers or applications, but not users?).
     @ManyToMany(cascade={},fetch=FetchType.LAZY,targetEntity=Application.class,mappedBy="federatedGroups")

@@ -42,6 +42,10 @@ public class Group extends AbstractEntity {
     @JoinTable(name="map_group2user",joinColumns=@JoinColumn(name="groupid", referencedColumnName="id"),inverseJoinColumns=@JoinColumn(name="userid", referencedColumnName="id"))
     private List<User> childUsers = new ArrayList<>();
 
+    @ManyToMany(cascade={},fetch=FetchType.LAZY,targetEntity=Identity.class)
+    @JoinTable(name="map_group2identity",joinColumns=@JoinColumn(name="groupid", referencedColumnName="id"),inverseJoinColumns=@JoinColumn(name="identityid", referencedColumnName="id"))
+    private List<Identity> childIdentities = new ArrayList<>();
+
     // Recursion: This group is contained in a parent group (ex: Directory Services like Active Directory, LDAP)
     @ManyToOne(cascade={},fetch=FetchType.LAZY,targetEntity=Group.class,optional=true)
     private Group parentGroup = null;
@@ -89,6 +93,13 @@ public class Group extends AbstractEntity {
     }
     public void setChildUsers(final List<User> childUsers) {
         this.childUsers = childUsers;
+    }
+
+    public List<Identity> getChildIdentities() {
+        return this.childIdentities;
+    }
+    public void setChildIdentities(final List<Identity> childIdentities) {
+        this.childIdentities = childIdentities;
     }
 
     @Override

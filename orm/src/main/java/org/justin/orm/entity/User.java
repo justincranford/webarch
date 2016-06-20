@@ -1,13 +1,20 @@
 package org.justin.orm.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 @SuppressWarnings("hiding")
@@ -25,6 +32,15 @@ public class User extends AbstractEntity {
 	@Column(name="email",unique=true,insertable=true,updatable=true,nullable=false,length=320)
 	@Size(min=1,max=320)
     private String email = null;
+
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name="user_credentials", joinColumns=@JoinColumn(name="userid"))
+    @MapKeyColumn(name="name",unique=false,insertable=true,updatable=true,nullable=false,length=255)
+    @Column(name="value",unique=false,insertable=true,updatable=true,nullable=false,length=255)
+    Map<String, String> attributes = new HashMap<String, String>(); // maps from attribute name to value
+
+    @OneToMany(cascade={},fetch=FetchType.EAGER,targetEntity=Identity.class,mappedBy="parentUser",orphanRemoval=true)
+    private List<Identity> childIdentities = new ArrayList<>();
 
     @ManyToOne(cascade={},fetch=FetchType.LAZY,targetEntity=Application.class,optional=true)
     private Application parentApplication = null;
@@ -67,6 +83,13 @@ public class User extends AbstractEntity {
     }
     public void setEmail(final String email) {
         this.email = email;
+    }
+
+    public List<Identity> getIdentities() {
+        return this.childIdentities;
+    }
+    public void setChildIdentities(final List<Identity> childIdentitiess) {
+        this.childIdentities = childIdentitiess;
     }
 
     public Application getParentApplication() {

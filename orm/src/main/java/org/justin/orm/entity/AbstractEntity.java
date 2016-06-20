@@ -38,7 +38,7 @@ import javax.validation.constraints.NotNull;
 @Table(indexes={@Index(name="veruserid_id_vernum",unique=false,columnList="veruserid,id,vernum")})
 //@org.hibernate.envers.RevisionEntity(AbstractEntity.AbstractEntityRevisionListener.class)
 public abstract class AbstractEntity {
-	private static final AtomicInteger JUNK = new AtomicInteger(1);
+	private static final AtomicInteger JUNK = new AtomicInteger(1);	// TODO remove
 
 	@Column(name="id",unique=true,insertable=true,updatable=false,nullable=false)
 	@NotNull
@@ -90,8 +90,8 @@ public abstract class AbstractEntity {
 	@PreRemove	// delete
 	void preCommit() {
 		this.auditTimestamp = new Date();
-		this.auditUserId = AbstractEntity.JUNK.getAndIncrement();
-		System.out.println("DEBUG: Committing " + this.getClass().getSimpleName() + ", value=" + this.toString());
+		this.auditUserId = AbstractEntity.JUNK.getAndIncrement();	// TODO remove
+		System.out.println("DEBUG: Committing " + this.getClass().getSimpleName() + ", value=" + this.toString());	// TODO remove
 	}
 
 	@PostPersist
